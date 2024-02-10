@@ -12,6 +12,13 @@ app.get('/', (req, res) => {
     res.send('hello world');
 });
 
+// built-in middleware for json handling
+app.use(express.json())
+
+app.use('/register', require('./routes/registerEmployee'));
+
+app.use('/api/employees', require('./routes/api/employees'));
+
 // connect to db and run the server on port 3500
 mongoose.connection.once('open', () => {
     console.log('connected to db');
