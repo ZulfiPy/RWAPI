@@ -25,6 +25,7 @@ app.use('/refresh', require('./routes/refresh'));
 app.use('/logout', require('./routes/logout'));
 
 app.use('/api/employees', require('./routes/api/employees'));
+app.use('/api/customers', require('./routes/api/customers'));
 
 // connect to db and run the server on port 3500
 mongoose.connection.once('open', () => {
