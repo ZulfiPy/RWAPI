@@ -12,8 +12,8 @@ const verifyJWT = async (req, res, next) => {
         (err, decoded) => {
             if (err) return res.status(401).json({ err });
             console.log('decoded', decoded.UserInfo);
-            req.username = decoded.UserInfo.username
-            req.roles = decoded.UserInfo.username
+            req.username = decoded.UserInfo.username;
+            req.roles = decoded.UserInfo.roles;
             next();
         }
     )
