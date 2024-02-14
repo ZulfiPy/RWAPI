@@ -6,9 +6,14 @@ const mongoose = require('mongoose');
 const connectToDB = require('./config/dbConnect');
 const cookiesParser = require('cookie-parser')
 const verifyJWT = require('./middleware/verifyJWT');
+const logger = require('./middleware/logger');
+const errLogger = require('./middleware/errorHandler');
 
 // run database connection config
 connectToDB();
+
+// customer middleware - request logger
+app.use(logger);
 
 app.get('/', (req, res) => {
     res.send('hello world');
@@ -30,9 +35,12 @@ app.use('/refresh', require('./routes/refresh'));
 app.use('/logout', require('./routes/logout'));
 
 // verify JWT before making request to the API
-app.use(verifyJWT)
+app.use(verifyJWT);
 app.use('/api/employees', require('./routes/api/employees'));
 app.use('/api/customers', require('./routes/api/customers'));
+
+// customer middleware - error logger
+app.use(errLogger);
 
 // connect to db and run the server on port 3500
 mongoose.connection.once('open', () => {
