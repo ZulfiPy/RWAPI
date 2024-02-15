@@ -8,12 +8,21 @@ const cookiesParser = require('cookie-parser')
 const verifyJWT = require('./middleware/verifyJWT');
 const logger = require('./middleware/logger');
 const errLogger = require('./middleware/errorHandler');
+const credentials = require('./middleware/credentials');
+const cors = require('cors');
+const corsOptions = require('./config/corsOptions');
 
 // run database connection config
 connectToDB();
 
 // customer middleware - request logger
 app.use(logger);
+
+// set 'Access-Control-Allow-Credentials' middleware
+app.use(credentials);
+
+// CORS - Cross-Origin Resource Sharing
+app.use(cors(corsOptions));
 
 app.get('/', (req, res) => {
     res.send('hello world');
