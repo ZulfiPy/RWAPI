@@ -7,7 +7,7 @@ const handleRefresh = async (req, res) => {
     if (!cookies?.jwt) return res.status(403).json({ 'message': 'there is jwt token stored in your cookies' });
 
     const refreshToken = cookies.jwt;
-    res.clearCookie('jwt', { httpOnly: true, sameSite: 'None' });
+    res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
 
     const foundEmployee = await Employee.findOne({ refreshTokens: refreshToken }).exec();
 
@@ -65,7 +65,7 @@ const handleRefresh = async (req, res) => {
             const result = await foundEmployee.save();
             console.log('refresh update is done', result);
 
-            res.cookie('jwt', newRefreshToken, { httpOnly: true, sameSite: 'None' });
+            res.cookie('jwt', newRefreshToken, { httpOnly: true, sameSite: 'None', secure: true });
 
             return res.json({ 'accessToken': newAccessToken });
         }

@@ -48,14 +48,14 @@ const handleLogin = async (req, res) => {
             if (!foundToken) {
                 refreshTokenArray = [];
             }
-            res.clearCookie('jwt', { httpOnly: true, sameSite: 'None' });
+            res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
         }
         
         foundEmployee.refreshTokens = [...refreshTokenArray, refreshToken];
         const result = await foundEmployee.save();
         console.log(result);
 
-        res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 });
+        res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
         
         return res.json({accessToken});
     } else {
